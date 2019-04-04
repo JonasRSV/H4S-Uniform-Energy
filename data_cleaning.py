@@ -45,7 +45,7 @@ def smhi(dataframe: pd.DataFrame, out: str):
     smhi_data["is_snow"] = smhi_data[["temperature", "rain"]].apply(
         lambda x: int(x.iloc[0] < 0 and x.iloc[1] > 0), axis=1)
 
-    print(smhi_data.head())
+    smhi_data.to_csv(out, index=False)
 
 
 if __name__ == "__main__":
