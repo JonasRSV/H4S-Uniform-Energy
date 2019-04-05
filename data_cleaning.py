@@ -33,6 +33,21 @@ def nordpool_energy(dataframe: pd.DataFrame, out: str):
     swedish_energy_data.to_csv(out, index=False)
 
 
+def smhi(dataframe: pd.DataFrame, out: str):
+    smhi_data = pd.DataFrame()
+
+    smhi_data["date"] = pd.to_datetime(dataframe["Date"])
+    smhi_data["temperature"] = dataframe["Temperatur"]
+    smhi_data["rain"] = dataframe["Nederbord"]
+
+    smhi_data = smhi_data[smhi_data["date"] >= "2016-01-01"]
+
+    smhi_data["is_snow"] = smhi_data[["temperature", "rain"]].apply(
+        lambda x: int(x.iloc[0] < 0 and x.iloc[1] > 0), axis=1)
+
+    smhi_data.to_csv(out, index=False)
+
+
 if __name__ == "__main__":
     nordpool_energy(
         pd.read_csv("data/nordpool2018.csv"), "data/nordpool2018_clean.csv")
@@ -40,3 +55,4 @@ if __name__ == "__main__":
         pd.read_csv("data/nordpool2017.csv"), "data/nordpool2017_clean.csv")
     nordpool_energy(
         pd.read_csv("data/nordpool2016.csv"), "data/nordpool2016_clean.csv")
+    smhi(pd.read_csv("data/weather1.csv"), "data/weather_1_clean.csv")
