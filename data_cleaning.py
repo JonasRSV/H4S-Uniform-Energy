@@ -24,7 +24,7 @@ def nordpool_energy(dataframe: pd.DataFrame, out: str):
     swedish_energy_data["hour"] = dataframe["Hours"].apply(
         lambda x: x[:3].strip())
     swedish_energy_data["day"] = dataframe["Unnamed: 0"].apply(
-        lambda x: re.findall("(..)-*", x)[0])
+        lambda x: re.findall("^(..)-*", x)[0])
     swedish_energy_data["month"] = dataframe["Unnamed: 0"].apply(
         lambda x: re.findall("..-(..)-*", x)[0])
     swedish_energy_data["year"] = dataframe["Unnamed: 0"].apply(
